@@ -60,6 +60,8 @@ public class UrlService {
                     state = false;
                 }
             }
+
+
             return shortUrl;
         } catch (Exception e) {
             log.info(e.getMessage());
@@ -127,7 +129,7 @@ public class UrlService {
     public NamedParameterJdbcTemplate getShardedTemplate(int number) {
         int shard = Math.abs(number % 3);
 
-        log.info("goes to shard: " + shard);
+        log.info("goes to shard: " + (shard + 1));
 
         switch (shard) {
             case 0:
