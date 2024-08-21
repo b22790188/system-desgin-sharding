@@ -1,17 +1,11 @@
 package org.example.systemdesignsharding.dao;
 
-import org.example.systemdesignsharding.model.UrlData;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,17 +55,17 @@ public class UrlDao {
     }
 
 
-    public Integer testConnection(JdbcTemplate jdbcTemplate, UrlData urlData) {
-        String sql = "INSERT INTO info(long_url, short_url, ttl) values (?,?,?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, urlData.getLong_url());
-            ps.setString(2, urlData.getShort_url());
-            ps.setInt(3, urlData.getTtl());
-            return ps;
-        }, keyHolder);
-        return keyHolder.getKey().intValue();
-    }
+//    public Integer testConnection(JdbcTemplate jdbcTemplate, shortenRequest shortenRequest) {
+//        String sql = "INSERT INTO info(long_url, short_url, ttl) values (?,?,?)";
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//
+//        jdbcTemplate.update(connection -> {
+//            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//            ps.setString(1, shortenRequest.getLong_url());
+//            ps.setString(2, shortenRequest.getShort_url());
+//            ps.setInt(3, shortenRequest.getTtl());
+//            return ps;
+//        }, keyHolder);
+//        return keyHolder.getKey().intValue();
+//    }
 }
