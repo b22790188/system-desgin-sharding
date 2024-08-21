@@ -1,5 +1,6 @@
 package org.example.systemdesignsharding.dao;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,9 +11,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
+@Log4j2
 public class UrlDao {
 
     public Integer saveUrlInfo(NamedParameterJdbcTemplate namedParameterJdbcTemplate, String longUrl, String shortUrl, int ttl) {
+
+        log.info("write");
+        String lockTableSql = "LOCK TABLES info WRITE";
+        String unlockTableSql = "UNLOCK TABLES";
+
+        namedParameterJdbcTemplate.getJdbcTemplate().execute(lockTableSql);
+
         String sql = "INSERT INTO info (long_url, short_url,ttl) VALUES (:longUrl, :shortUrl , :ttl)";
         Map<String, Object> map = new HashMap<>();
         map.put("longUrl", longUrl);
@@ -25,6 +34,8 @@ public class UrlDao {
             return 0;
         } catch (DataAccessException e) {
             throw new RuntimeException();
+        } finally {
+            namedParameterJdbcTemplate.getJdbcTemplate().execute(unlockTableSql);
         }
     }
 

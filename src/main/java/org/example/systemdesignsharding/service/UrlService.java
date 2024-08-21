@@ -73,7 +73,7 @@ public class UrlService {
     public String getLongUrl(String shortKey) {
         // 兩種結果 - 1.longUrl(成功取得 url) 2.null(沒有該url)
 
-        // caculate short key
+        // calculate short key
         int asciiSum = convertAndSumAscii(shortKey);
         NamedParameterJdbcTemplate shardTemplate = getShardedTemplate(asciiSum);
 
